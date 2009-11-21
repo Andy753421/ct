@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "lib.h"
+#include "html.h"
 
 int main(int argc, char **argv)
 {

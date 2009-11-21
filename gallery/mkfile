@@ -1,0 +1,8 @@
+PROGS=gallery
+PKGS=glib-2.0
+CLEAN=html.c
+
+default:V: run
+gallery: gallery.o html.o
+
+<../mkcommon

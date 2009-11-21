@@ -1,0 +1,94 @@
+[#include <glib.h>]
+
+[void header() {]
+Content-Type: text/html; charset=UTF-8
+[}]
+
+
+[void frame_index(){]
+<html>
+	<frameset rows="20, *">
+		<frame name="head" src="?head">
+		<frameset cols="240,*">
+			<frame name="nav" src="?nav">
+			<frame name="content" src="?content">
+		</frameset>
+	</frameset>
+</html>
+[}]
+
+
+[void frame_head(){]
+<html>
+	<head>
+		<style>
+			body {
+				padding:0px;
+				margin:0px;
+			}
+		</style>
+	</head>
+	<body>
+		<center>
+			<a href="?noframe" target="parent">No Frames</a>
+		</center>
+	</body>
+</html>
+[}]
+
+
+[void frame_nav(int square, GList *thumbs) {]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Image viewer</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<style type="text/css">
+			* {padding:0; margin:0;}
+			.align {
+				display:block;
+				float:left;
+				margin:10px;
+				text-align:center;
+				text-decoration:none;
+				width:214px;
+				[if (square)]
+				height:214px;
+			}
+			.box {
+				background-color:#f8fbFF;
+				border:solid 2px #B4C7F8;
+				display:block;
+				text-align:center;
+				text-decoration:none;
+				padding:5px;
+				overflow:hidden;
+			}
+			.box img {
+				border:none;
+			}
+			.box:hover {
+				color:transparent;
+			}
+		</style>
+	</head>
+	<body>
+		[for (GList *cur =thumbs; cur; cur = cur->next) {]
+			<div class="align">
+				<a class="box" target="content"
+					[g_print("href=\"images/%s\"", (gchar*)cur->data);]
+				><img
+					[g_print("src=\"thumbs/%s\"", (gchar*)cur->data);]
+				></a>
+			</div>
+		[}]
+	</body>
+</html>
+[}]
+
+
+[void frame_content(){]
+<html>
+</html>
+[}]

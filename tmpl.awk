@@ -5,6 +5,7 @@
 	next
 }
 /./{
+	gsub(/"/, "\\\"")
 	data[length(data)] = "\""$0"\\n\""
 	i=length(data)-1
 	code[length(code)] = "fwrite(data"i", sizeof(data"i")-1, 1, stdout);"
