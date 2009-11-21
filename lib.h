@@ -1,0 +1,2 @@
+void header();
+int html();

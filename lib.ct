@@ -1,0 +1,16 @@
+[void header() {]
+Content-Type: application/xhtml+xml; charset=UTF-8
+[}]
+
+[void body() {]
+	[for (int i = 0; i < 3; i++)]
+		<p>hello, world</p>
+[}]
+
+[void html() {]
+<html>
+	<body>
+		[body();]
+	</body>
+</html>
+[}]
