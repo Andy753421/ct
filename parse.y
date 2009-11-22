@@ -20,7 +20,7 @@ all   : data | code | print ;
 data  : DATA {
 	static int i = 0;
 	data = g_list_prepend(data, g_strdup_printf(
-		"static char data%d[] = \"%s\\n\";\n",
+		"static char data%d[] = \"%s\";\n",
 		i, g_strescape($1, "")));
 	code = g_list_prepend(code, g_strdup_printf(
 		"fwrite(data%d, sizeof(data%d)-1, 1, stdout);\n",
