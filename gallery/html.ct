@@ -9,7 +9,7 @@ Content-Type: text/html; charset=UTF-8
 <html>
 	<frameset rows="20, *">
 		<frame name="head" src="?head">
-		<frameset cols="240,*">
+		<frameset cols="248,*">
 			<frame name="nav" src="?nav">
 			<frame name="content" src="?content">
 		</frameset>
@@ -37,7 +37,7 @@ Content-Type: text/html; charset=UTF-8
 [}]
 
 
-[void frame_nav(int square, GList *thumbs) {]
+[void frame_nav(int square, GList *images) {]
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -74,7 +74,7 @@ Content-Type: text/html; charset=UTF-8
 		</style>
 	</head>
 	<body>
-		[for (GList *cur =thumbs; cur; cur = cur->next) {]
+		[for (GList *cur = images; cur; cur = cur->next) {]
 			<div class="align">
 				<a class="box" target="content"
 					[g_print("href=\"images/%s\"", (gchar*)cur->data);]
