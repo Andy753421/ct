@@ -1,5 +1,7 @@
-PROGS=ct
+PROGS=ct lib
 PKGS=glib-2.0
+lib-test:V: lib
+	./lib
 ct-test:V: ct
 	./ct < example/html.ct
 ct: ct.o parse.o scan.o
