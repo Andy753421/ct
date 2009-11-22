@@ -1,5 +1,6 @@
 %.c: %.ct
-	../tmpl.awk <$prereq >$target
+	(cd .. && mk)
+	../ct <$prereq >$target
 	ex +'norm gg=G' +'wq' $target
 
 <$HOME/lib/mkcommon

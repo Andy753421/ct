@@ -1,11 +1,12 @@
-[#include <glib.h>]
+<% #include <glib.h> %>
 
-[void header() {]
+
+<% void header() { %>
 Content-Type: text/html; charset=UTF-8
-[}]
+<% } %>
 
 
-[void frame_index(){]
+<% void frame_index(){ %>
 <html>
 	<frameset rows="20, *">
 		<frame name="head" src="?head">
@@ -15,10 +16,10 @@ Content-Type: text/html; charset=UTF-8
 		</frameset>
 	</frameset>
 </html>
-[}]
+<% } %>
 
 
-[void frame_head(){]
+<% void frame_head(){ %>
 <html>
 	<head>
 		<style>
@@ -34,10 +35,10 @@ Content-Type: text/html; charset=UTF-8
 		</center>
 	</body>
 </html>
-[}]
+<% } %>
 
 
-[void frame_nav(int square, GList *images) {]
+<% void frame_nav(int square, GList *images) { %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -53,7 +54,7 @@ Content-Type: text/html; charset=UTF-8
 				text-align:center;
 				text-decoration:none;
 				width:214px;
-				[if (square)]
+				<% if (square) %>
 				height:214px;
 			}
 			.box {
@@ -74,21 +75,19 @@ Content-Type: text/html; charset=UTF-8
 		</style>
 	</head>
 	<body>
-		[for (GList *cur = images; cur; cur = cur->next) {]
+		<% for (GList *cur = images; cur; cur = cur->next) { %>
+			<% gchar *img = (gchar *)cur->data; %>
 			<div class="align">
-				<a class="box" target="content"
-					[g_print("href=\"images/%s\"", (gchar*)cur->data);]
-				><img
-					[g_print("src=\"thumbs/%s\"", (gchar*)cur->data);]
-				></a>
+				<a class="box" target="content" href="images/<%= "%s", img %>">
+				<img src="thumbs/<%= "%s", img %>"></a>
 			</div>
-		[}]
+		<% } %>
 	</body>
 </html>
-[}]
+<% } %>
 
 
-[void frame_content(){]
+<% void frame_content(){ %>
 <html>
 </html>
-[}]
+<% } %>
