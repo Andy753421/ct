@@ -33,8 +33,8 @@ int main(int argc, char **argv)
         g_print("#include <stdio.h>\n");
 	g_print("\n");
 	for (GList *cur = data; cur; cur = cur->next)
-		g_print("%s", cur->data);
+		g_print("%s", (gchar *)cur->data);
         g_print("\n");
 	for (GList *cur = code; cur; cur = cur->next)
-		g_print("%s", cur->data);
+		g_print("%s", (gchar *)cur->data);
 }
