@@ -33,10 +33,8 @@ GList *read_dir(gchar *dirname)
 	GDir *dir = g_dir_open(dirname, 0, NULL);
 	const gchar *name = NULL;
 	GList *images = NULL;
-	while ((name = g_dir_read_name(dir))) {
-		g_message("got image %s", name);
+	while ((name = g_dir_read_name(dir)))
 		images = g_list_prepend(images, g_strdup(name));
-	}
 	return images;
 }
 
