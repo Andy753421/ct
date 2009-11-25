@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <glib.h>
 
 #include "parse.h"
@@ -8,33 +9,50 @@ gpointer parse(FILE *input, GList **data, GList **code);
 int main(int argc, char **argv)
 {
         /* Parse arguments */
-        int option_log_level = 7;
+        char *option_output = NULL;
         GOptionEntry entries[] = {
-                {"debug", 'd', 0, G_OPTION_ARG_INT,  &option_log_level,
-                        "Change default log level", "[1-7]"},
+                {"output", 'o', 0, G_OPTION_ARG_STRING,  &option_output,
+                        "Output file", ""},
                 {NULL}
         };
-        GOptionContext *context = g_option_context_new("infile");
+        GOptionContext *context = g_option_context_new("[template]");
         g_option_context_add_main_entries(context, entries, NULL);
         g_option_context_parse(context, &argc, &argv, NULL);
 
-        FILE *input = stdin;
-        for (int i = 1; i < argc; i++)
-                if (g_str_has_suffix(argv[i], ".ct"))
-                        input = fopen(argv[i], "r");
+	/* Handle input and output */
+	FILE *input = stdin;
+	if (argv[1] && !g_str_equal(input, "-"))
+		input = fopen(argv[1], "r");
+	if (!input)
+		g_error("invalid input file");
 
-        /* Start compiling */
+	FILE *output = stdout;
+	if (option_output && !g_str_equal(option_output, "-"))
+		output = fopen(option_output, "w");
+	else if (input != stdin && option_output == NULL) {
+		char *outf = g_strdup(argv[1]);
+		outf[strlen(outf)-1] = '\0';
+		output = fopen(outf, "w");
+		g_free(outf);
+	}
+	if (!output)
+		g_error("invalid output file");
+
+	/* Start compiling */
 	GList *data = NULL;
 	GList *code = NULL;
-        parse(input, &data, &code);
+	parse(input, &data, &code);
 	data = g_list_reverse(data);
 	code = g_list_reverse(code);
 
-        g_print("#include <stdio.h>\n");
-	g_print("\n");
+	fprintf(output, "#include <stdio.h>\n");
+	fprintf(output, "\n");
 	for (GList *cur = data; cur; cur = cur->next)
-		g_print("%s", (gchar *)cur->data);
-        g_print("\n");
+		fprintf(output, "%s", (gchar *)cur->data);
+	fprintf(output, "\n");
 	for (GList *cur = code; cur; cur = cur->next)
-		g_print("%s", (gchar *)cur->data);
+		fprintf(output, "%s", (gchar *)cur->data);
+
+	fclose(input);
+	fclose(output);
 }

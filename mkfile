@@ -1,8 +1,9 @@
 PROGS=ct lib
 PKGS=glib-2.0
-lib-test:V: lib
+default:V: run
+lib-run:V: lib
 	./lib
-ct-test:V: ct
+ct-run:V: ct
 	./ct < example/html.ct
 ct: ct.o parse.o scan.o
 ct.o: parse.h
