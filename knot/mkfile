@@ -1,0 +1,10 @@
+PROGS=knot
+CLEAN=html.c *.html
+
+default:V: hitch.html
+knot: knot.o html.o knot.h 
+
+%.html: $PROGS %.txt
+	./$PROGS < $stem.txt > $stem.html
+
+<../mkcommon
