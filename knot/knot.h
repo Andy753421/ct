@@ -11,4 +11,9 @@ typedef struct {
 	int bot;
 } tile_t;
 
-void print_index(tile_t **tiles);
+typedef struct {
+	tile_t *cols;
+	int ncols;
+} row_t;
+
+void print_index(row_t *rows);

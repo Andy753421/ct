@@ -1,6 +1,6 @@
 PROGS=ct lib
 PKGS=glib-2.0
-default:V: run
+default:V: all
 lib-run:V: lib
 	./lib
 ct-run:V: ct
