@@ -22,17 +22,17 @@
 		</style>
 	</head>
 	<body>
-	<table cellpadding="0" cellspacing="0">
-		<% for (int row = 1; rows[row].cols; row++) { %>
-		<tr>
-			<% for (int col = 1; col < rows[row].ncols; col++) { %>
-			<td>
-				<% print_img(rows[row].cols[col].bot); %>
-				<% print_img(rows[row].cols[col].top); %>
-			</td>
+		<table cellpadding="0" cellspacing="0">
+			<% for (int row = 0; rows[row].ncols >= 0; row++) { %>
+			<tr>
+				<% for (int col = 0; col < rows[row].ncols; col++) { %>
+				<td>
+					<% print_img(rows[row].cols[col].bot); %>
+					<% print_img(rows[row].cols[col].top); %>
+				</td>
+				<% } %>
+			</tr>
 			<% } %>
-		</tr>
-		<% } %>
 		</table>
 	</body>
 </html>

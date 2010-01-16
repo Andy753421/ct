@@ -1,7 +1,8 @@
 PROGS=knot
 CLEAN=html.c *.html
 
-default:V: hitch.html
+knots=`{ls *.txt}
+default:V: ${knots:%.txt=%.html}
 
 knot: knot.o html.o knot.h 
 
