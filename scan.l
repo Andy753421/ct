@@ -7,17 +7,19 @@
 %option noyywrap
 %option nounput
 %option noinput
+%option yylineno
 /* %option nodebug */
 START [ \t]*<%
-END   [ \t]*%>[ \t]*
+END   [ \t]*%>
 DATA  ([^<\n]|<[^%])*\n*
 CODE  [ \t\n]([^%\n]|%[^>])*\n*
-%s IN FMT
+%s IN
 %%
 [[:space:]]*\n   { debug("NL    [%s]"); }
 <INITIAL>{START} { debug("START [%s]"); yylval = g_strdup(yytext); BEGIN(IN);      return START; }
 <INITIAL>{DATA}  { debug("DATA  [%s]"); yylval = g_strdup(yytext);                 return DATA;  }
 <IN>{END}        { debug("END   [%s]"); yylval = g_strdup(yytext); BEGIN(INITIAL); return END;   }
 <IN>=            { debug("OUT   [%s]"); yylval = g_strdup(yytext);                 return OUT;   }
+<IN>%            { debug("FMT   [%s]"); yylval = g_strdup(yytext);                 return FMT;   }
 <IN>{CODE}       { debug("CODE  [%s]"); yylval = g_strdup(yytext);                 return DATA;  }
 %%
