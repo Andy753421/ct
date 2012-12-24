@@ -3,53 +3,52 @@
 #include <stdio.h>
 #include <glib.h>
 extern FILE *yyin;
+extern int   yylineno;
 int yylex(void);
 void yyerror(gpointer node, char const *s);
-extern int yylineno;
-static const char *name;
-static GList *code;
-static GList *data;
+static const char *name = NULL;
+static GList *code = NULL;
+static GList *data = NULL;
 %}
 %error-verbose
 %parse-param {gpointer root};
-%token START END DATA FMT OUT
+%token START END DATA OUT FMT
 %%
 
 input : all | all input ;
 
-all   : data | code | print ;
+all   : data | code | out | fmt ;
 
 data  : DATA {
 	static int i = 0;
 	data = g_list_prepend(data, g_strdup_printf(
-		"#line %d \"%s\"\n"
 		"static char data%d[] = \"%s\";\n",
-		yylineno, name, i, g_strescape($1, "")));
+		i, g_strescape($1, "")));
 	code = g_list_prepend(code, g_strdup_printf(
-		"#line %d \"%s\"\n"
 		"fwrite(data%d, sizeof(data%d)-1, 1, stdout);\n",
-		yylineno, name, i, i));
+		i, i));
 	i++;
 };
 
 code  : START DATA END {
+	code = g_list_prepend(code, g_strdup_printf("#line %d \"%s\"\n", yylineno, name));
 	code = g_list_prepend(code, g_strdup_printf("%s\n", $2));
 };
 
-print : START FMT DATA END {
-	code = g_list_prepend(code, g_strdup_printf("printf(%s);\n", $3));
-};
-
-print : START OUT DATA END {
+out : START OUT DATA END {
 	code = g_list_prepend(code, g_strdup_printf("printf(\"%%s\", %s);\n", $3));
 };
 
+fmt : START FMT DATA END {
+	code = g_list_prepend(code, g_strdup_printf("printf(%s);\n", $3));
+};
+
 %%
-gpointer parse(FILE *input, const char *_name,
+gpointer parse(const char *_name, FILE *_input,
 		GList **_data, GList **_code)
 {
-	yyin = input;
 	name = _name;
+	yyin = _input;
 	yyparse(NULL);
 	*_data = data;
 	*_code = code;

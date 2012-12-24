@@ -4,12 +4,13 @@
 
 #include "parse.h"
 
-gpointer parse(FILE *input, const char *name,
+gpointer parse(const char *name, FILE *input,
 		GList **data, GList **code);
 
 int main(int argc, char **argv)
 {
 	const char *name = "stdin";
+
         /* Parse arguments */
         char *option_output = NULL;
         GOptionEntry entries[] = {
@@ -23,7 +24,7 @@ int main(int argc, char **argv)
 
 	/* Handle input and output */
 	FILE *input = stdin;
-	if (argv[1] && !g_str_equal(input, "-")) {
+	if (argv[1] && !g_str_equal(argv[1], "-")) {
 		name  = argv[1];
 		input = fopen(argv[1], "r");
 	}
@@ -45,7 +46,7 @@ int main(int argc, char **argv)
 	/* Start compiling */
 	GList *data = NULL;
 	GList *code = NULL;
-	parse(input, name, &data, &code);
+	parse(name, input, &data, &code);
 	data = g_list_reverse(data);
 	code = g_list_reverse(code);
 

@@ -11,8 +11,6 @@ Content-Type: application/xhtml+xml; charset=UTF-8
 <html>
 	<body>
 		<% body(); %>
-
-		<a><%= "%05.2f" %></a>
 	</body>
 </html>
 <% } %>

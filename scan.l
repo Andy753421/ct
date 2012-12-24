@@ -8,6 +8,7 @@
 %option nounput
 %option noinput
 %option yylineno
+%option never-interactive
 /* %option nodebug */
 START [ \t]*<%
 END   [ \t]*%>

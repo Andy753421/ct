@@ -1,8 +1,48 @@
 #define _GNU_SOURCE
+#include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <printf.h>
 
+/* Misc */
+void ct_print_header(const char *content_type, const char *charset)
+{
+	if (!content_type) content_type = "text/html";
+	if (!charset)      charset      = "UTF-8";
+	printf("Content-Type: %s; charset=%s\n\n",
+			content_type, charset);
+}
+
+/* Environment */
+const gchar *ct_get_path_info(void)
+{
+	return g_getenv("PATH_INFO") ?: "";
+}
+
+const gchar *ct_get_query_string(void)
+{
+	return g_getenv("QUERY_STRING") ?: "";
+}
+
+const GHashTable *ct_get_query(void)
+{
+	const gchar *query_string = g_getenv("QUERY_STRING");
+	GHashTable *query = g_hash_table_new(g_str_hash, g_str_equal);
+	if (query_string) {
+		gchar **vars = g_strsplit(query_string, "&", -1);
+		for (int i = 0; vars[i]; i++) {
+			gchar **parts = g_strsplit(vars[i], "=", 2);
+			gchar *lhs = parts[0]             ? parts[0] : "";
+			gchar *rhs = parts[0] && parts[1] ? parts[1] : "";
+			g_hash_table_insert(query, lhs, rhs);
+			g_free(parts); // keep lhs/rhs
+		}
+		g_strfreev(vars);
+	}
+	return query;
+}
+
+/* Markup escaping */
 static int printf_markup(FILE *stream,
 		const struct printf_info *info,
 		const void *const *args)

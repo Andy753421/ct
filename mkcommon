@@ -1,6 +1,0 @@
-%.c: %.ct
-	(cd .. && mk)
-	../ct <$prereq >$target
-	ex +'norm gg=G' +'wq' $target
-
-<$HOME/lib/mkcommon
