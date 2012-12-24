@@ -6,4 +6,4 @@ void frame_head();
 
 void frame_nav(int square, GList *images);
 
-void frame_content();
+void frame_show();

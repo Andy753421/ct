@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mkdir -p large small thumb
+mv "$@" large
+
+chgrp apache small thumb
+chmod 775    small thumb
+
+ln -s ~/git/ct/gallery/gallery  index.bin
+ln -s ~/git/ct/gallery/htaccess .htaccess

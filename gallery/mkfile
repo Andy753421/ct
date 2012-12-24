@@ -1,8 +1,12 @@
-PROGS=gallery
-PKGS=glib-2.0
-CLEAN=html.c
+PROGS    = gallery
+PKGS     = glib-2.0
+CLEAN    = html.c
+CPPFLAGS = -I..
+CFLAGS   = --std=c99 -Wall -Wno-format -g
 
-default:V: run
-gallery: gallery.o html.o
+default:V: gallery
+	QUERY_STRING=foo ./gallery
+
+gallery: gallery.o html.o ../lib.o
 
 <../mkcommon

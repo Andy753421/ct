@@ -1,0 +1,4 @@
+Options +ExecCGI
+AddHandler cgi-script .bin
+RewriteEngine on
+RewriteRule ^(?!thumb/|small/|large/|images/|mid/|index.bin).*$ "index.bin/$0"

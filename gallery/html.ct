@@ -1,18 +1,12 @@
 <% #include <glib.h> %>
 
-
-<% void header() { %>
-Content-Type: text/html; charset=UTF-8
-<% } %>
-
-
 <% void frame_index(){ %>
 <html>
 	<frameset rows="20, *">
-		<frame name="head" src="?head">
+		<frame name="head" src="head">
 		<frameset cols="248,*">
-			<frame name="nav" src="?nav">
-			<frame name="content" src="?content">
+			<frame name="nav" src="nav">
+			<frame name="content" src="content">
 		</frameset>
 	</frameset>
 </html>
@@ -31,7 +25,7 @@ Content-Type: text/html; charset=UTF-8
 	</head>
 	<body>
 		<center>
-			<a href="?noframe" target="parent">No Frames</a>
+			<a href="noframe" target="parent">No Frames</a>
 		</center>
 	</body>
 </html>
@@ -78,16 +72,20 @@ Content-Type: text/html; charset=UTF-8
 		<% for (GList *cur = images; cur; cur = cur->next) { %>
 			<% gchar *img = (gchar *)cur->data; %>
 			<div class="align">
-				<a class="box" target="content" href="images/<%= "%s", img %>">
-				<img src="thumbs/<%= "%s", img %>"></a>
+				<a class="box" target="content" href="show_small?<%= "%s", img %>">
+				<img src="thumb/<%= "%s", img %>"></a>
 			</div>
 		<% } %>
 	</body>
 </html>
 <% } %>
 
-
-<% void frame_content(){ %>
-<html>
-</html>
+<% void frame_show(char *this, char *link, char *image){ %>
+<html> 
+	<body style="text-align:center;"> 
+		<a href="<%= "%s?%s", link, image %>">
+			<img src="<%= "%s/%s", this, image %>">
+		</a> 
+	</body> 
+</html> 
 <% } %>
