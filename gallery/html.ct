@@ -72,8 +72,8 @@
 		<% for (GList *cur = images; cur; cur = cur->next) { %>
 			<% gchar *img = (gchar *)cur->data; %>
 			<div class="align">
-				<a class="box" target="content" href="show_small?<%= "%s", img %>">
-				<img src="thumb/<%= "%s", img %>"></a>
+				<a class="box" target="content" href="show_small?<%% "%s", img %>">
+				<img src="thumb/<%% "%s", img %>"></a>
 			</div>
 		<% } %>
 	</body>
@@ -83,8 +83,8 @@
 <% void frame_show(char *this, char *link, char *image){ %>
 <html> 
 	<body style="text-align:center;"> 
-		<a href="<%= "%s?%s", link, image %>">
-			<img src="<%= "%s/%s", this, image %>">
+		<a href="<%% "%s?%s", link, image %>">
+			<img src="<%% "%s/%s", this, image %>">
 		</a> 
 	</body> 
 </html> 

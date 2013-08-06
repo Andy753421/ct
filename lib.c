@@ -73,6 +73,7 @@ void ct_use_escape()
 	register_printf_specifier('M', printf_markup, printf_markup_arginfo);
 }
 
+#ifdef TEST
 int main(void)
 {
 	ct_use_escape();
@@ -81,3 +82,4 @@ int main(void)
 	printf("%M\n", "<Hello, World>");
 	return 0;
 }
+#endif
