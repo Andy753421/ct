@@ -1,7 +1,0 @@
-PROGS=main
-CLEAN=html.c
-
-default:V: run
-main: main.o html.o
-
-<../mkcommon
