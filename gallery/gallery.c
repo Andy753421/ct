@@ -5,10 +5,15 @@
 
 void resize(gchar *orig, gchar *thumb, gchar *size)
 {
-	gchar *argv[] = {"convert", "-resize", size, orig, thumb, NULL};
-	/* god damn glib */
-	g_spawn_sync(NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL, NULL, NULL);
+	GStatBuf oinfo, tinfo;
+	int oval = g_stat(orig,  &oinfo);
+	int tval = g_stat(thumb, &tinfo);
+	if (tval || (!oval && oinfo.st_mtime > tinfo.st_mtime)) {
+		/* god damn glib */
+		gchar *argv[] = {"convert", "-resize", size, orig, thumb, NULL};
+		g_spawn_sync(NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+			NULL, NULL, NULL, NULL, NULL, NULL);
+	}
 }
 
 GList *gen_thumbs(GList *images)
@@ -21,10 +26,8 @@ GList *gen_thumbs(GList *images)
 		gchar *large = g_build_filename("large", name, NULL);
 		gchar *small = g_build_filename("small", name, NULL);
 		gchar *thumb = g_build_filename("thumb", name, NULL);
-		if (!g_file_test(thumb, G_FILE_TEST_EXISTS)) {
-			resize(large, thumb, "200x200");
-			resize(large, small, "800x800");
-		}
+		resize(large, thumb, "200x200");
+		resize(large, small, "800x800");
 		g_free(large);
 		g_free(small);
 		g_free(thumb);
